@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { createUserController, deleteUserController, listUsersController,
-    // deleteUserController,
-    // listUsersController,
-    // updateUserController
+import {
+  createUserController,
+  deleteUserController,
+  listUsersController,
+  patchUserController,
 } from "../controllers/users.controllers";
 
 import ensureIsAdminMiddleware from "../middlewares/ensureIsAdmin.middleware";
@@ -11,19 +12,34 @@ import ensureUserExistsMiddleware from "../middlewares/ensureUserExist.middlewar
 import { userSchema, updateUser } from "../schemas/user.schema";
 import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
 
+const userRoutes: Router = Router();
 
+userRoutes.post(
+  "",
+  ensureDataIsValidMiddleware(userSchema),
+  createUserController
+);
+userRoutes.get(
+  "",
+  ensureTokenIsValidMiddleware,
+  ensureIsAdminMiddleware,
+  listUsersController
+);
 
-const userRoutes: Router = Router()
+userRoutes.delete(
+  "/:id",
+  ensureTokenIsValidMiddleware,
+  ensureUserExistsMiddleware,
+  ensureIsAdminMiddleware,
+  deleteUserController
+);
 
-userRoutes.post("", ensureDataIsValidMiddleware(userSchema), createUserController)
-userRoutes.get("", ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, listUsersController)
+userRoutes.patch(
+  "/:id",
+  ensureDataIsValidMiddleware(updateUser),
+  ensureTokenIsValidMiddleware,
+  ensureUserExistsMiddleware,
+  patchUserController
+);
 
-userRoutes.delete("/:id",
-ensureTokenIsValidMiddleware,
-ensureUserExistsMiddleware,
-ensureIsAdminMiddleware,
-deleteUserController
-)
-// userRoutes.patch("/:id", ensureDataIsValidMiddleware(updateUser), ensureUserExistsMiddleware, ensureTokenIsValidMiddleware, updateUserController)
-
-export default userRoutes
+export default userRoutes;

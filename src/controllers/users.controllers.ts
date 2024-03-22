@@ -1,30 +1,55 @@
 import { Request, Response } from "express";
-import { IUser } from "../interfaces/user.interface"
-import createUserService from "../services/users/createUser.service"
+import { IUser, IUserReturn, IUserUpdate } from "../interfaces/user.interface";
+import createUserService from "../services/users/createUser.service";
 import listUsersService from "../services/users/listUsers.service";
 import deleteUserService from "../services/users/deleteUser.service";
-
-export const createUserController = async (req: Request, res: Response): Promise<Response> => {
-    const userData: IUser = req.body
-
-    const newUser = await createUserService(userData)
-
-    return res.status(201).json(newUser)
-}
+import patchUserService from "../services/users/patchUser.service";
 
 
-export const listUsersController = async (req: Request, res: Response): Promise<Response> => {
-    const users = await listUsersService()
+export const createUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userData: IUser = req.body;
 
-    return res.status(200).json(users)
-}
+  const newUser = await createUserService(userData);
 
+  return res.status(201).json(newUser);
+};
 
-export const deleteUserController = async (req: Request, res: Response): Promise<Response> => {
-    const paramId: number = parseInt(req.params.id)
+export const listUsersController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const users = await listUsersService();
 
-    await deleteUserService(paramId)
+  return res.status(200).json(users);
+};
 
-    return res.status(204).send()
-}
+export const deleteUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const paramId: number = parseInt(req.params.id);
 
+  await deleteUserService(paramId);
+
+  return res.status(204).send();
+};
+
+export const patchUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  const idParams: number = Number(req.params.id);
+  const currentId: number = req.id;
+
+  const user: IUserReturn = await patchUserService(
+    req.user,
+    req.body,
+    idParams,
+    currentId,
+  );
+  return res.status(200).json(user);
+};
