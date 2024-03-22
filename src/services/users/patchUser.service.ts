@@ -1,3 +1,4 @@
+import { hashSync } from "bcryptjs";
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/user.entity";
 import { AppError } from "../../errors";
@@ -9,6 +10,7 @@ const patchUserService = async (
   newUser: User | null,
   id: number,
   currentId: number,
+  newPassword: string
 ): Promise<IUserReturn> => {
 
   if (id !== currentId) {
@@ -17,7 +19,10 @@ const patchUserService = async (
 
   const userRepository: RepoUser = AppDataSource.getRepository(User);
 
+  const hashedPassword = hashSync(newPassword, 10); // Aplica hash na nova senha
+  await userRepository.update(id, { ...newUser, password: hashedPassword });
   await userRepository.update(id, newUser || oldUser);
+
 
   const updateUserResult = await userRepository.findOne({
     where: {
