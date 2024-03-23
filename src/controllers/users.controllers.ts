@@ -45,10 +45,16 @@ export const patchUserController = async (
   const idParams: number = Number(req.params.id);
   const currentId: number = req.id;
 
-  // Verifique se há uma nova senha no corpo da requisição e aplique o hash
+
   let newPassword = req.body.password;
+  let updateData = { ...req.body };
+
   if (newPassword) {
     newPassword = hashSync(newPassword, 10);
+    updateData.password = newPassword;
+  }
+  else {
+    delete updateData.password; // Remove a senha do objeto de atualização se não houver uma nova
   }
 
   const user: IUserReturn = await patchUserService(
@@ -56,7 +62,6 @@ export const patchUserController = async (
     { ...req.body, password: newPassword },
     idParams,
     currentId,
-    newPassword
   );
 
   return res.status(200).json(user);
