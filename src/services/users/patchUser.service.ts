@@ -1,3 +1,4 @@
+import { hashSync } from "bcryptjs";
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/user.entity";
 import { AppError } from "../../errors";
@@ -6,9 +7,9 @@ import { returnUserSchemaComplete } from "../../schemas/user.schema";
 
 const patchUserService = async (
   oldUser: User,
-  newUser: User | null,
+  updateData: Partial<User>,
   id: number,
-  currentId: number,
+  currentId: number
 ): Promise<IUserReturn> => {
 
   if (id !== currentId) {
@@ -17,15 +18,14 @@ const patchUserService = async (
 
   const userRepository: RepoUser = AppDataSource.getRepository(User);
 
-  await userRepository.update(id, newUser || oldUser);
+  await userRepository.update(id, updateData);
 
   const updateUserResult = await userRepository.findOne({
     where: {
       id,
     },
   });
-  console.log(id)
-  console.log(currentId)
+
   return returnUserSchemaComplete.parse(updateUserResult);
 };
 

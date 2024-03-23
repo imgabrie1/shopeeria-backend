@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { getRounds, hashSync } from "bcryptjs";
 import { IUser, IUserReturn, IUserUpdate } from "../interfaces/user.interface";
 import createUserService from "../services/users/createUser.service";
 import listUsersService from "../services/users/listUsers.service";
@@ -41,15 +42,27 @@ export const patchUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-
   const idParams: number = Number(req.params.id);
   const currentId: number = req.id;
 
+
+  let newPassword = req.body.password;
+  let updateData = { ...req.body };
+
+  if (newPassword) {
+    newPassword = hashSync(newPassword, 10);
+    updateData.password = newPassword;
+  }
+  else {
+    delete updateData.password; // Remove a senha do objeto de atualização se não houver uma nova
+  }
+
   const user: IUserReturn = await patchUserService(
     req.user,
-    req.body,
+    { ...req.body, password: newPassword },
     idParams,
     currentId,
   );
+
   return res.status(200).json(user);
 };
