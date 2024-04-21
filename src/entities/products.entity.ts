@@ -10,8 +10,6 @@ import {
 import { Favorite } from "./favorites.entity";
 
 
-
-
 @Entity("products")
 export class Product {
   @PrimaryGeneratedColumn("increment")

@@ -9,7 +9,6 @@ import { AppError } from "../errors";
 
 export const createProductController = async (req: Request, res: Response): Promise<Response> => {
     const newProduct: Product = await createProductService(req.body)
-    console.log("Produto criado:", newProduct);
     return res.status(201).json(newProduct)
 }
 
@@ -38,6 +37,6 @@ export const patchProductController = async (req: Request, res: Response) => {
     if(updatedProduct){
         return res.status(200).json(updatedProduct)
     } else {
-        throw new AppError("Product not found", 404);
+        throw new AppError("Produto não encontrado", 404);
     }
 }

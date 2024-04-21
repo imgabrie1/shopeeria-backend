@@ -6,11 +6,14 @@ import { returnMultipleUserSchema, returnUserSchema } from "../../schemas/user.s
 
 
 const listUsersService = async (): Promise<IUsersReturn> => {
+    const userRepository: RepoUser = AppDataSource.getRepository(User);
+    const findUsers: Array<User> = await userRepository.find({
+      relations: ['favorites', 'favorites.product']
+    });
+    const users = returnMultipleUserSchema.parse(findUsers);
+    return users;
+  };
 
-    const userRepository: RepoUser = AppDataSource.getRepository(User)
-    const findUsers: Array<User> = await userRepository.find()
-    const users = returnMultipleUserSchema.parse(findUsers)
-    return users
-}
+
 
 export default listUsersService

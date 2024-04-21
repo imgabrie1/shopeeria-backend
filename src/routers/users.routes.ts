@@ -1,9 +1,12 @@
 import { Router } from "express";
 import {
+  addFavoriteController,
   createUserController,
   deleteUserController,
+  listUserController,
   listUsersController,
   patchUserController,
+  removeFavoriteController,
 } from "../controllers/users.controllers";
 
 import ensureIsAdminMiddleware from "../middlewares/ensureIsAdmin.middleware";
@@ -19,11 +22,19 @@ userRoutes.post(
   ensureDataIsValidMiddleware(userSchema),
   createUserController
 );
+
+
 userRoutes.get(
   "",
   ensureTokenIsValidMiddleware,
   ensureIsAdminMiddleware,
   listUsersController
+);
+
+userRoutes.get(
+  "/:id",
+  ensureTokenIsValidMiddleware,
+  listUserController
 );
 
 userRoutes.delete(
@@ -41,5 +52,9 @@ userRoutes.patch(
   ensureUserExistsMiddleware,
   patchUserController
 );
+
+//FAVORITES
+userRoutes.post("/:id/favorite", addFavoriteController)
+userRoutes.delete("/:id/:productId", removeFavoriteController)
 
 export default userRoutes;
