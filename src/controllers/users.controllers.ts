@@ -6,8 +6,8 @@ import listUsersService from "../services/users/listUsers.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import patchUserService from "../services/users/patchUser.service";
 import listUserService from "../services/users/listUser.service";
-import { addFavoriteService } from "../services/favorites/addFavorite.service";
 import { AppError } from "../errors";
+import { addFavoriteService } from "../services/favorites/addFavorite.service";
 import { removeFavoriteService } from "../services/favorites/removeFavorite.service";
 
 

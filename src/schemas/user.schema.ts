@@ -3,7 +3,17 @@ import { string, z } from "zod";
 export const userSchema = z.object({
     name: z.string().max(45),
     email: z.string().max(45).email(),
-    favorites: z.array(z.object({})).optional(),
+    favorites: z.array(z.object({
+        id: z.number(),
+        product: z.object({
+          id: z.number(),
+          productName: z.string(),
+          description: z.string(),
+          category: z.array(z.string()),
+          createdAt: z.string(),
+          updatedAt: z.string(),
+        })
+      })).optional().default([]),
     admin: z.boolean().default(false),
     password: z.string().max(120),
 })

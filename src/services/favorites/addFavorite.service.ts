@@ -4,7 +4,7 @@ import { Product } from "../../entities/products.entity";
 import { User } from "../../entities/user.entity";
 import { AppError } from "../../errors";
 
-export const addFavoriteService = async (userId: number, productId: number): Promise<Favorite> => {
+const addFavoriteService = async (userId: number, productId: number): Promise<Favorite> => {
   const userRepository = AppDataSource.getRepository(User);
   const productRepository = AppDataSource.getRepository(Product);
   const favoriteRepository = AppDataSource.getRepository(Favorite);
@@ -51,3 +51,4 @@ export const addFavoriteService = async (userId: number, productId: number): Pro
 
   return fullFavorite;
 };
+ export default addFavoriteService
