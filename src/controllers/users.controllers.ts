@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
 import { getRounds, hashSync } from "bcryptjs";
-import { IUser, IUserReturn, IUserUpdate } from "../interfaces/user.interface";
+import { IUser, IUserReturn } from "../interfaces/user.interface";
 import createUserService from "../services/users/createUser.service";
 import listUsersService from "../services/users/listUsers.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import patchUserService from "../services/users/patchUser.service";
+import listUserService from "../services/users/listUser.service";
+import { addFavoriteService } from "../services/favorites/addFavorite.service";
+import { AppError } from "../errors";
+import { removeFavoriteService } from "../services/favorites/removeFavorite.service";
 
 
 export const createUserController = async (
@@ -23,8 +27,17 @@ export const listUsersController = async (
   res: Response
 ): Promise<Response> => {
   const users = await listUsersService();
-
   return res.status(200).json(users);
+};
+
+export const listUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  const UserId: number = parseInt(req.params.id);
+  const user = await listUserService(UserId);
+  return res.status(200).json(user);
 };
 
 export const deleteUserController = async (
@@ -54,7 +67,7 @@ export const patchUserController = async (
     updateData.password = newPassword;
   }
   else {
-    delete updateData.password; // Remove a senha do objeto de atualização se não houver uma nova
+    delete updateData.password;
   }
 
   const user: IUserReturn = await patchUserService(
@@ -66,3 +79,65 @@ export const patchUserController = async (
 
   return res.status(200).json(user);
 };
+
+
+//FAVORITES
+export const addFavoriteController = async (req: Request, res: Response): Promise<Response> => {
+  const userId: number = parseInt(req.params.id);
+  const { productId } = req.body;
+
+  try {
+    const favorite = await addFavoriteService(userId, productId);
+    if (!favorite) {
+      return res.status(404).json({ message: "Produto favoritado não encontrado" });
+    }
+
+    return res.status(201).json({
+      favorite: {
+        id: favorite.id,
+        user: {
+          id: favorite.user.id,
+          name: favorite.user.name,
+          email: favorite.user.email,
+          admin: favorite.user.admin,
+          createdAt: favorite.user.createdAt,
+          updatedAt: favorite.user.updatedAt,
+        },
+        product: {
+          id: favorite.product.id,
+          productName: favorite.product.productName,
+          description: favorite.product.description,
+          category: favorite.product.category,
+          createdAt: favorite.product.createdAt,
+          updatedAt: favorite.product.updatedAt,
+        }
+      }
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(409).json({ message: "Item já favoritado" });
+  }
+};
+
+
+export const removeFavoriteController = async (req: Request, res: Response): Promise<Response> => {
+  const userId: number = parseInt(req.params.id)
+  const productId: number = parseInt(req.params.productId)
+
+  try {
+    await removeFavoriteService(userId, productId);
+    console.log(userId, productId)
+    return res.status(204).send();
+  } catch (error) {
+    console.log(userId, productId)
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(409).json({ message: "Item já removido" });
+  }
+};
+
+
+

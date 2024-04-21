@@ -1,5 +1,4 @@
 import { string, z } from "zod";
-// import { Category } from "../entities/products.entity";
 
 
 
@@ -19,7 +18,5 @@ export const returnProductSchemaComplete = returnProductSchema.extend({
     updatedAt: z.date().or(string()),
     deletedAt: z.date().or(string()).nullable()
 })
-
-// export const updateProduct = productSchema.partial().omit({ admin: true })
 
 export const returnMultipleProductSchema = returnProductSchemaComplete.array()
