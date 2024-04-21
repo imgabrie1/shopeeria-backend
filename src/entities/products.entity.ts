@@ -24,6 +24,9 @@ export class Product {
   @Column({type: "varchar", array: true })
   category: [string];
 
+  @Column({type: "varchar"})
+  link: string;
+
   @OneToMany(() => Favorite, (favorite) => favorite.product)
   favorites: Favorite[];
 
