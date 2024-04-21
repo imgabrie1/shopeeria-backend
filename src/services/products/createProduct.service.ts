@@ -10,9 +10,6 @@ export const createProductService = async (data: IProduct): Promise<Product> => 
 
     const newProduct: Product = repoProduct.create(product);
 
-    // await repoProduct.save(newProduct);
-
-
     await repoProduct.save(newProduct);
 
     return newProduct;

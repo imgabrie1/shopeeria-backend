@@ -1,3 +1,4 @@
+import { DeepPartial } from "typeorm"
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
 import { AppError } from "../../errors"
@@ -20,7 +21,7 @@ const createUserService = async (userData: IUser): Promise<IUserReturn> => {
         throw new AppError('Email already exists', 409)
     }
 
-    const user: User = userRepository.create(userData)
+    const user: User = userRepository.create(userData as DeepPartial<User>)
 
     await userRepository.save(user)
 
