@@ -23,7 +23,6 @@ userRoutes.post(
   createUserController
 );
 
-
 userRoutes.get(
   "",
   ensureTokenIsValidMiddleware,
@@ -31,17 +30,13 @@ userRoutes.get(
   listUsersController
 );
 
-userRoutes.get(
-  "/:id",
-  ensureTokenIsValidMiddleware,
-  listUserController
-);
+userRoutes.get("/:id", ensureTokenIsValidMiddleware, listUserController);
 
 userRoutes.delete(
   "/:id",
+  ensureDataIsValidMiddleware(userSchema),
   ensureTokenIsValidMiddleware,
   ensureUserExistsMiddleware,
-  ensureIsAdminMiddleware,
   deleteUserController
 );
 
@@ -54,7 +49,17 @@ userRoutes.patch(
 );
 
 //FAVORITES
-userRoutes.post("/:id/favorite", addFavoriteController)
-userRoutes.delete("/:id/:productId", removeFavoriteController)
+userRoutes.post(
+  "/:id/favorite",
+  ensureTokenIsValidMiddleware,
+  ensureUserExistsMiddleware,
+  addFavoriteController
+);
+userRoutes.delete(
+  "/:id/:productId",
+  ensureTokenIsValidMiddleware,
+  ensureUserExistsMiddleware,
+  removeFavoriteController
+);
 
 export default userRoutes;
