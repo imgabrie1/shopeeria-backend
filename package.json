@@ -11,7 +11,7 @@
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/server.ts",
-    "typeorm": "typeorm-ts-node-commonjs migration:run -d dist/data-source.js"
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "keywords": [],
   "author": "",
