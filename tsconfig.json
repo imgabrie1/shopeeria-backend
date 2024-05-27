@@ -12,8 +12,11 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "outDir": "./dist",
-    "rootDir": "./src",
+    // "rootDir": "./src",
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "./api/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
