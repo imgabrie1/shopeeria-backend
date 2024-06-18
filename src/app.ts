@@ -4,9 +4,12 @@ import express, { Application } from "express";
 import userRoutes from "./routers/users.routes";
 import loginRoutes from "./routers/login.routes";
 import productRoutes from "./routers/products.routes";
+import cors from "cors";
 
 const app: Application = express()
 app.use(express.json())
+
+app.use(cors())
 
 
 app.use("/users", userRoutes)
