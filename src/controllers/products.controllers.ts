@@ -21,7 +21,7 @@ export const listProductsController = async (req: Request, res: Response): Promi
 }
 
 export const deleteProductController = async (req: Request, res: Response) => {
-    const paramId: number = parseInt(req.params.id)
+    const paramId: string = req.params.id
 
     await deleteProductService(paramId)
 
@@ -29,7 +29,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
 }
 
 export const patchProductController = async (req: Request, res: Response) => {
-    const paramId: number = parseInt(req.params.id)
+    const paramId: string = req.params.id
     const data: Partial<Product> = req.body
 
     const updatedProduct = await patchProductService(paramId, data)

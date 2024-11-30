@@ -13,7 +13,7 @@ export const productSchema = z.object({
 })
 
 export const returnProductSchema = productSchema.extend({
-    id: z.number()
+    id: z.string()
 })
 
 export const returnProductSchemaComplete = returnProductSchema.extend({

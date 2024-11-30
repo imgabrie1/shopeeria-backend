@@ -13,7 +13,7 @@ import { Favorite } from "./favorites.entity";
 @Entity("products")
 export class Product {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @Column({ type: "varchar", length: 45 })
   productName: string;
