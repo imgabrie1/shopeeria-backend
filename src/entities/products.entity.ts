@@ -12,7 +12,7 @@ import { Favorite } from "./favorites.entity";
 
 @Entity("products")
 export class Product {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column({ type: "varchar", length: 45 })
@@ -29,6 +29,9 @@ export class Product {
 
   @Column({type: "varchar"})
   link: string;
+
+  @Column('decimal', { precision: 10, scale: 2, default: 0 })
+  price: number;
 
   @OneToMany(() => Favorite, (favorite) => favorite.product)
   favorites: Favorite[];
