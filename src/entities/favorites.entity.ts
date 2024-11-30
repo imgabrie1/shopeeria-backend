@@ -8,8 +8,8 @@ import { Product } from "./products.entity";
 
 @Entity("favorites")
 export class Favorite {
-  @PrimaryGeneratedColumn("increment")
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
   @ManyToOne(() => User, (user) => user.favorites)
   user: User;
 

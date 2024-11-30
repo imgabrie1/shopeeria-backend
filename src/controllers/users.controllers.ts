@@ -35,7 +35,7 @@ export const listUserController = async (
   res: Response
 ): Promise<Response> => {
 
-  const UserId: number = parseInt(req.params.id);
+  const UserId: string = req.params.id;
   const user = await listUserService(UserId);
   return res.status(200).json(user);
 };
@@ -44,7 +44,7 @@ export const deleteUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const paramId: number = parseInt(req.params.id);
+  const paramId: string = req.params.id;
 
   await deleteUserService(paramId);
 
@@ -55,8 +55,8 @@ export const patchUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const idParams: number = Number(req.params.id);
-  const currentId: number = req.id;
+  const idParams: string = req.params.id;
+  const currentId: string = req.id;
 
 
   let newPassword = req.body.password;
@@ -83,7 +83,7 @@ export const patchUserController = async (
 
 //FAVORITES
 export const addFavoriteController = async (req: Request, res: Response): Promise<Response> => {
-  const userId: number = parseInt(req.params.id);
+  const userId: string = req.params.id;
   const { productId } = req.body;
 
   try {
@@ -123,8 +123,8 @@ export const addFavoriteController = async (req: Request, res: Response): Promis
 
 
 export const removeFavoriteController = async (req: Request, res: Response): Promise<Response> => {
-  const userId: number = parseInt(req.params.id)
-  const productId: number = parseInt(req.params.productId)
+  const userId: string = req.params.id
+  const productId: string = req.params.productId
 
   try {
     await removeFavoriteService(userId, productId);

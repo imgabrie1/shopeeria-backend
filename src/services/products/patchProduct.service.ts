@@ -5,7 +5,7 @@ import { IProduct, IProductReturn, RepoProduct } from "../../interfaces/product.
 
 
 
-const patchProductService = async (productId: number, updateData: Partial<IProduct>): Promise<Product | null> => {
+const patchProductService = async (productId: string, updateData: Partial<IProduct>): Promise<Product | null> => {
     const productRepository: RepoProduct = AppDataSource.getRepository(Product);
 
     const product = await productRepository.findOneBy({
