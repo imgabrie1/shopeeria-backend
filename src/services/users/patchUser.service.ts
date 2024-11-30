@@ -8,8 +8,8 @@ import { returnUserSchemaComplete } from "../../schemas/user.schema";
 const patchUserService = async (
   oldUser: User,
   updateData: Partial<User>,
-  id: number,
-  currentId: number
+  id: string,
+  currentId: string
 ): Promise<IUserReturn> => {
 
   if (id !== currentId) {

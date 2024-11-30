@@ -4,9 +4,9 @@ export const userSchema = z.object({
     name: z.string().max(45),
     email: z.string().max(45).email(),
     favorites: z.array(z.object({
-        id: z.number(),
+        id: z.string(),
         product: z.object({
-          id: z.number(),
+          id: z.string(),
           productName: z.string(),
           description: z.string(),
           category: z.array(z.string()),
@@ -19,7 +19,7 @@ export const userSchema = z.object({
 })
 
 export const returnUserSchema = userSchema.extend({
-    id: z.number()
+    id: z.string()
 }).omit({ password: true })
 
 export const returnUserSchemaComplete = returnUserSchema.extend({

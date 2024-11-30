@@ -21,7 +21,7 @@ const ensureTokenIsValidMiddleware = (req: Request, res: Response, next: NextFun
         }
 
 
-        req.id = Number(decoded.sub)
+        req.id = decoded.sub
         req.admin = decoded.admin
         req.user = decoded.user
 

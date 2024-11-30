@@ -4,7 +4,7 @@ import { RepoProduct } from "../../interfaces/product.interface"
 
 
 
-const deleteProductService = async (productId: number): Promise<void> => {
+const deleteProductService = async (productId: string): Promise<void> => {
     const productRepository: RepoProduct = AppDataSource.getRepository(Product)
 
     const user = await productRepository.findOne({
