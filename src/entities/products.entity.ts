@@ -30,7 +30,7 @@ export class Product {
   @Column({type: "varchar"})
   link: string;
 
-  @Column('decimal', { precision: 10, scale: 2, default: 0 })
+  @Column("decimal", { precision: 10, scale: 2})
   price: number;
 
   @OneToMany(() => Favorite, (favorite) => favorite.product)
