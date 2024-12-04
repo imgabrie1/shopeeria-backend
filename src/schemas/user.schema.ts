@@ -9,6 +9,7 @@ export const userSchema = z.object({
           id: z.string(),
           productName: z.string(),
           description: z.string(),
+          price: z.number(),
           category: z.array(z.string()),
           createdAt: z.string(),
           updatedAt: z.string(),
