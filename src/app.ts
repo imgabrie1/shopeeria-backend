@@ -5,10 +5,12 @@ import userRoutes from "./routers/users.routes";
 import loginRoutes from "./routers/login.routes";
 import productRoutes from "./routers/products.routes";
 import cors from "cors";
+import bodyParser from "body-parser"
 
 const app: Application = express()
-app.use(express.json())
 
+app.use(express.json())
+app.use(bodyParser.json())
 app.use(cors())
 
 
