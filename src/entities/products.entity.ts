@@ -15,10 +15,10 @@ export class Product {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "varchar", length: 45 })
+  @Column({ type: "varchar", length: 150 })
   productName: string;
 
-  @Column({ type: "varchar", length: 120 })
+  @Column({ type: "varchar", length: 200 })
   description: string;
 
   @Column({type: "varchar", array: true })

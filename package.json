@@ -9,7 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
-    "vercel-build": "typeorm migration:run -- -d src/data-source && echo 'Migration completed successfully' || echo 'Migration failed'"
+    "vercel-build": "typeorm migration:run -- -d src/data-source && echo 'Migration completed successfully' || echo 'Migration failed'",
+    "schema:drop": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js schema:drop -d ./src/data-source.ts",
+    "schema:sync": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js schema:sync -d ./src/data-source.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.0.2",
     "tsx": "^4.7.3",
     "typescript": "^5.4.5"

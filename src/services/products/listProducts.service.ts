@@ -10,6 +10,8 @@ const listProductsService = async (): Promise<IProductsReturn> => {
   const repoProduct: RepoProduct = AppDataSource.getRepository(Product);
   const findProducts: Array<Product> = await repoProduct.find();
 
+  console.log("Service: Products from database", findProducts);
+
   const validProducts = findProducts.map((product) => {
     return {
       ...product,
