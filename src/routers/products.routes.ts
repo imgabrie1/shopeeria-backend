@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { productSchema } from "../schemas/product.schema";
+import { productSchema, productSchemaPartial } from "../schemas/product.schema";
 import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
 import { createProductController, deleteProductController, listProductsController, patchProductController } from "../controllers/products.controllers";
 import ensureIsAdminMiddleware from "../middlewares/ensureIsAdmin.middleware";
@@ -19,7 +19,7 @@ createProductController)
 productRoutes.delete("/:id", ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, deleteProductController)
 
 productRoutes.patch("/:id",
-ensureDataIsValidMiddleware(productSchema),
+ensureDataIsValidMiddleware(productSchemaPartial),
 ensureTokenIsValidMiddleware,
 ensureIsAdminMiddleware,
 ensureCategoryIsValidMiddleware,

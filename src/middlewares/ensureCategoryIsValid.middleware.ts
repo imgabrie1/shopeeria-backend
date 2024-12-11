@@ -38,11 +38,7 @@ export function ensureCategoryIsValidMiddleware(
 ) {
   const { category } = req.body;
 
-  if (
-    !category ||
-    !Array.isArray(category) ||
-    !category.every((cat) => allowedCategories.includes(cat))
-  ) {
+  if (category && (!Array.isArray(category) || !category.every((cat) => allowedCategories.includes(cat)))) {
     return res.status(400).json({ message: "Categoria inválida." });
   }
 
