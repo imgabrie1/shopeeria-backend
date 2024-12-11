@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
 import { Product } from "../entities/products.entity";
-import { createProductService } from "../services/products/createProduct.service";
 import deleteProductService from "../services/products/deleteProduct.service";
 import listProductsService from "../services/products/listProducts.service";
 import patchProductService from "../services/products/patchProduct.service";
 import { AppError } from "../errors";
 import { IProductUpdate } from "../interfaces/product.interface";
+import createProductService from "../services/products/createProduct.service";
 
 export const createProductController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const newProduct: Product = await createProductService(req.body);
+
+  console.log("testeeee", newProduct)
   return res.status(201).json(newProduct);
 };
 
