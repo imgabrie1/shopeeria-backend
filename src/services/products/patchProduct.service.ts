@@ -1,25 +1,36 @@
-import { AppDataSource } from "../../data-source";
-import { Product } from "../../entities/products.entity";
-import { AppError } from "../../errors";
-import { IProduct, IProductReturn, RepoProduct } from "../../interfaces/product.interface";
+import { AppDataSource } from "../../data-source"
+import { Product } from "../../entities/products.entity"
+import { IProductReturn, IProductUpdate, RepoProduct } from "../../interfaces/product.interface"
+import { returnProductSchema } from "../../schemas/product.schema"
 
+const patchProductService = async (
+    paramId: string,
+    data: IProductUpdate,
+): Promise<IProductReturn> => {
+    const productRepository: RepoProduct = AppDataSource.getRepository(Product)
+    const oldProduct = await productRepository.findOneBy({
+        id: paramId,
+    })
 
-
-const patchProductService = async (productId: string, updateData: Partial<IProduct>): Promise<Product | null> => {
-    const productRepository: RepoProduct = AppDataSource.getRepository(Product);
-
-    const product = await productRepository.findOneBy({
-        id: productId
-    });
-
-    if (!product) {
-        throw new AppError("Product not found", 404);
+    if (data.price) {
+        data.price = typeof data.price === "string" ? parseFloat(data.price) : data.price;
     }
 
-    await productRepository.update(productId, updateData);
+    const updatedProductData = {
+        ...oldProduct,
+        ...data,
+    }
 
-    const updatedProduct = await productRepository.findOneBy({ id: productId });
-    return updatedProduct;
+    if (updatedProductData.price && typeof updatedProductData.price === "string") {
+        updatedProductData.price = parseFloat(updatedProductData.price);
+    }
+
+    const updatedProduct = productRepository.create(updatedProductData)
+
+    await productRepository.save(updatedProduct)
+    const returnedProduct = returnProductSchema.parse(updatedProduct)
+
+    return returnedProduct
 }
 
-export default patchProductService;
+export default patchProductService
