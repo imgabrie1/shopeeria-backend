@@ -27,7 +27,7 @@ export const listProductsController = async (
 };
 
 export const deleteProductController = async (req: Request, res: Response) => {
-  const paramId: string = req.params.id;
+  const paramId: number = parseInt(req.params.id);
 
   await deleteProductService(paramId);
 
@@ -35,7 +35,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
 };
 
 export const patchProductController = async (req: Request, res: Response) => {
-  const paramId: string = req.params.id;
+  const paramId: number = parseInt(req.params.id);
   const data: IProductUpdate = req.body;
 
   const updatedProduct = await patchProductService(paramId, data);

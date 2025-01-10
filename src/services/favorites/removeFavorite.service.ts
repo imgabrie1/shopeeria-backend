@@ -2,7 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { Favorite } from "../../entities/favorites.entity";
 import { AppError } from "../../errors";
 
-const removeFavoriteService = async (userId: string, productId: string): Promise<void> => {
+const removeFavoriteService = async (userId: number, productId: number): Promise<void> => {
     const favoriteRepository = AppDataSource.getRepository(Favorite);
 
     const favorite = await favoriteRepository.findOne({

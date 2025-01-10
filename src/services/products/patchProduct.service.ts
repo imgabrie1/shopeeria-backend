@@ -4,7 +4,7 @@ import { IProductReturn, IProductUpdate, RepoProduct } from "../../interfaces/pr
 import { returnProductSchema } from "../../schemas/product.schema"
 
 const patchProductService = async (
-    paramId: string,
+    paramId: number,
     data: IProductUpdate,
 ): Promise<IProductReturn> => {
     const productRepository: RepoProduct = AppDataSource.getRepository(Product)
