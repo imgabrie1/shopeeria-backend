@@ -128,10 +128,8 @@ export const removeFavoriteController = async (req: Request, res: Response): Pro
 
   try {
     await removeFavoriteService(userId, productId);
-    console.log(userId, productId)
     return res.status(204).send();
   } catch (error) {
-    console.log(userId, productId)
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({ message: error.message });
     }
