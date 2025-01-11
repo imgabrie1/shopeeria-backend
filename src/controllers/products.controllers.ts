@@ -13,7 +13,6 @@ export const createProductController = async (
 ): Promise<Response> => {
   const newProduct: Product = await createProductService(req.body);
 
-  console.log("testeeee", newProduct)
   return res.status(201).json(newProduct);
 };
 
