@@ -10,7 +10,6 @@ import { AppError } from "../errors";
 import addFavoriteService from "../services/favorites/addFavorite.service";
 import removeFavoriteService from "../services/favorites/removeFavorite.service";
 
-
 export const createUserController = async (
   req: Request,
   res: Response
@@ -18,6 +17,7 @@ export const createUserController = async (
   const userData: IUser = req.body;
 
   const newUser = await createUserService(userData);
+
 
   return res.status(201).json(newUser);
 };
@@ -34,7 +34,6 @@ export const listUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-
   const UserId: number = parseInt(req.params.id);
   const user = await listUserService(UserId);
   return res.status(200).json(user);
@@ -56,8 +55,8 @@ export const patchUserController = async (
   res: Response
 ): Promise<Response> => {
   const idParams: number = parseInt(req.params.id);
-  const currentId: number = req.id
-
+  const currentId: number =
+    typeof req.id === "string" ? parseInt(req.id) : req.id;
 
   let newPassword = req.body.password;
   let updateData = { ...req.body };
@@ -65,8 +64,7 @@ export const patchUserController = async (
   if (newPassword) {
     newPassword = hashSync(newPassword, 10);
     updateData.password = newPassword;
-  }
-  else {
+  } else {
     delete updateData.password;
   }
 
@@ -74,22 +72,26 @@ export const patchUserController = async (
     req.user,
     { ...req.body, password: newPassword },
     idParams,
-    currentId,
+    currentId
   );
 
   return res.status(200).json(user);
 };
 
-
 //FAVORITES
-export const addFavoriteController = async (req: Request, res: Response): Promise<Response> => {
+export const addFavoriteController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const userId: number = parseInt(req.params.id);
   const { productId } = req.body;
 
   try {
     const favorite = await addFavoriteService(userId, productId);
     if (!favorite) {
-      return res.status(404).json({ message: "Produto favoritado não encontrado" });
+      return res
+        .status(404)
+        .json({ message: "Produto favoritado não encontrado" });
     }
 
     return res.status(201).json({
@@ -110,8 +112,8 @@ export const addFavoriteController = async (req: Request, res: Response): Promis
           category: favorite.product.category,
           createdAt: favorite.product.createdAt,
           updatedAt: favorite.product.updatedAt,
-        }
-      }
+        },
+      },
     });
   } catch (error) {
     if (error instanceof AppError) {
@@ -121,10 +123,12 @@ export const addFavoriteController = async (req: Request, res: Response): Promis
   }
 };
 
-
-export const removeFavoriteController = async (req: Request, res: Response): Promise<Response> => {
-  const userId: number = parseInt(req.params.id)
-  const productId: number = parseInt(req.params.productId)
+export const removeFavoriteController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId: number = parseInt(req.params.id);
+  const productId: number = parseInt(req.params.productId);
 
   try {
     await removeFavoriteService(userId, productId);
@@ -136,6 +140,3 @@ export const removeFavoriteController = async (req: Request, res: Response): Pro
     return res.status(409).json({ message: "Item já removido" });
   }
 };
-
-
-
