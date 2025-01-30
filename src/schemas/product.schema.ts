@@ -22,7 +22,7 @@ export const productSchemaPartial = z.object({
 }).partial()
 
 export const returnProductSchema = productSchema.extend({
-    id: z.string()
+    id: z.number()
 })
 
 export const returnProductSchemaComplete = returnProductSchema.extend({

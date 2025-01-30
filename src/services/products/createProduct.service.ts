@@ -3,14 +3,19 @@ import { Product } from "../../entities/products.entity";
 import { IProduct, RepoProduct } from "../../interfaces/product.interface";
 import { productSchema } from "../../schemas/product.schema";
 
-export const createProductService = async (data: IProduct): Promise<Product> => {
-    const repoProduct: RepoProduct = AppDataSource.getRepository(Product);
+const createProductService = async (data: IProduct): Promise<Product> => {
+  const repoProduct: RepoProduct = AppDataSource.getRepository(Product);
+  if (typeof data.price === "string") {
 
-    const product = productSchema.parse(data);
+    data.price = parseFloat(data.price);
+  }
 
-    const newProduct: Product = repoProduct.create(product);
+  const product = productSchema.parse(data);
 
-    await repoProduct.save(newProduct);
+  const newProduct: Product = repoProduct.create(product);
 
-    return newProduct;
-  };
+  await repoProduct.save(newProduct);
+
+  return newProduct;
+};
+export default createProductService;

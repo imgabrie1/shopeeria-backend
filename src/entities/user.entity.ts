@@ -15,16 +15,16 @@ import { Favorite } from "./favorites.entity";
 
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn("increment")
+  id: number;
 
-  @Column({ type: "varchar", length: 45 })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: "varchar", length: 45 })
+  @Column({ type: "varchar", length: 50 })
   email: string;
 
-  @Column({ type: "varchar", length: 120 })
+  @Column({ type: "varchar", length: 125 })
   password: string;
 
   @Column({ default: false })

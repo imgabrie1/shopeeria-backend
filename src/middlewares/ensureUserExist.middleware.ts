@@ -10,7 +10,7 @@ const ensureUserExistsMiddleware = async (req: Request, res: Response, next: Nex
 
     const findUser = await userRepository.findOne({
         where: {
-            id: req.params.id
+            id: parseInt(req.params.id)
         }
     })
 

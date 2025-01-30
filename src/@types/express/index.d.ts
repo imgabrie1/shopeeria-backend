@@ -4,7 +4,7 @@ import { Category, User } from "../../entities/user.entity"
 declare global {
     namespace Express {
         interface Request {
-                id: string,
+                id: number,
                 admin: boolean,
                 user: User
         }

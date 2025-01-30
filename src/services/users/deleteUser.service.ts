@@ -3,7 +3,7 @@ import { User } from "../../entities/user.entity"
 import { RepoUser } from "../../interfaces/user.interface"
 
 
-const deleteUserService = async (userId: string): Promise<void> => {
+const deleteUserService = async (userId: number): Promise<void> => {
     const userRepository: RepoUser = AppDataSource.getRepository(User)
 
     const user = await userRepository.findOne({
