@@ -13,6 +13,6 @@
     }
   ],
   "env": {
-    "NODE_ENV": "PROD"
+    "NODE_ENV": "DEV"
   }
 }
